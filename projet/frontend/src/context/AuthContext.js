@@ -35,6 +35,30 @@ export const AuthProvider = ({children}) => {
         }
     }
 
+    let singup = async (e )=> {
+        e.preventDefault()
+        if(e.target.password.value != e.target.Conf_password.value ){
+            alert('Mot de passe de confirmation incorrecte!')
+        }
+        else{
+        let response = await fetch('http://127.0.0.1:8000/api/signup/', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'email':e.target.email.value, 'password':e.target.password.value, 'first_name':e.target.first_name.value ,'last_name':e.target.last_name.value,
+            'DateDeNaissance':e.target.DateDeNaissance.value})
+        })
+
+
+        if(response.status === 201){
+            history('/login')
+        }else{
+            alert('Something went wrong!')
+        }
+    }
+    }
+    
 
     let logoutUser = () => {
         setAuthTokens(null)
@@ -74,6 +98,7 @@ export const AuthProvider = ({children}) => {
         authTokens:authTokens,
         loginUser:loginUser,
         logoutUser:logoutUser,
+        singup:singup
     }
 
 
